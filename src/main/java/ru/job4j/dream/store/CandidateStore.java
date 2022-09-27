@@ -1,6 +1,7 @@
 package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.Post;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -28,5 +29,9 @@ public class CandidateStore {
 
     public Collection<Candidate> findAll() {
         return candidates.values();
+    }
+
+    public void add(Candidate candidate) {
+        candidates.put(candidate.getId(), candidate);
     }
 }
