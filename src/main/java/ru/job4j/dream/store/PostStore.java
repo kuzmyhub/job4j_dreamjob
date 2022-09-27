@@ -15,8 +15,6 @@ public class PostStore {
 
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
     private PostStore() {
         posts.put(1, new Post(1, "Junior Java Job",
                 "Разработка", LocalDateTime.now()));
