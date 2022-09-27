@@ -34,4 +34,16 @@ public class PostStore {
     public void add(Post post) {
         posts.put(post.getId(), post);
     }
+
+    public Post findById(int id) {
+        return posts.get(id);
+    }
+
+    public Post update(Post post) {
+        Post postUpdate = posts.get(post.getId());
+        postUpdate.setName(post.getName());
+        postUpdate.setDescription(post.getDescription());
+        postUpdate.setCreated(post.getCreated());
+        return postUpdate;
+    }
 }
