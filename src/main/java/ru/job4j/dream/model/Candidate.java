@@ -16,6 +16,11 @@ public class Candidate {
     public Candidate(int id) {
     }
 
+    public Candidate(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Candidate(int id, String name,
                      String desc, LocalDateTime created) {
         this.id = id;
