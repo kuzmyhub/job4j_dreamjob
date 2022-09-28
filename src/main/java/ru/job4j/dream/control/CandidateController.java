@@ -9,7 +9,7 @@ import ru.job4j.dream.store.CandidateStore;
 @Controller
 public class CandidateController {
 
-    CandidateStore candidateStore = CandidateStore.instOf();
+    private final CandidateStore candidateStore = CandidateStore.instOf();
 
     @GetMapping("/candidates")
     public String candidates(Model model) {
