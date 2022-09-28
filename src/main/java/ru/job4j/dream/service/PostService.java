@@ -6,7 +6,7 @@ import ru.job4j.dream.store.PostStore;
 
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
 
 @ThreadSafe
 @Service
@@ -18,8 +18,8 @@ public class PostService {
         this.store = store;
     }
 
-    public List<Post> findAll() {
-        return (List<Post>) store.findAll();
+    public Collection<Post> findAll() {
+        return store.findAll();
     }
 
     public void add(Post post) {
