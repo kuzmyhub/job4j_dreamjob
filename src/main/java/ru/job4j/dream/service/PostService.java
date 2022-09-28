@@ -14,7 +14,7 @@ public class PostService {
     private PostService() {
     }
 
-    public final PostService instOf() {
+    public static final PostService instOf() {
         return INST;
     }
 
