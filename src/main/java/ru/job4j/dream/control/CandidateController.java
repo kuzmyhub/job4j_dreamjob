@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.store.CandidateStore;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 public class CandidateController {
 
