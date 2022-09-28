@@ -13,7 +13,7 @@ public class Candidate {
 
     private LocalDateTime created;
 
-    public Candidate(int id) {
+    public Candidate() {
     }
 
     public Candidate(int id, String name) {

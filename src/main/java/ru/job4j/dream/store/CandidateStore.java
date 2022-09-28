@@ -29,4 +29,20 @@ public class CandidateStore {
     public Collection<Candidate> findAll() {
         return candidates.values();
     }
+
+    public void add(Candidate candidate) {
+        candidates.put(candidate.getId(), candidate);
+    }
+
+    public Candidate findById(int id) {
+        return candidates.get(id);
+    }
+
+    public Candidate update(Candidate candidate) {
+        Candidate candidateUpdate = candidates.get(candidate.getId());
+        candidateUpdate.setName(candidate.getName());
+        candidateUpdate.setDesc(candidate.getDesc());
+        candidateUpdate.setCreated(candidate.getCreated());
+        return candidateUpdate;
+    }
 }
