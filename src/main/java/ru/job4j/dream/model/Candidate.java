@@ -18,6 +18,8 @@ public class Candidate implements Serializable {
 
     private City city;
 
+    private byte[] photo;
+
     public Candidate() {
     }
 
@@ -33,6 +35,7 @@ public class Candidate implements Serializable {
         this.desc = desc;
         this.created = created;
         this.city = new City(0, "City");
+        this.photo = new byte[1];
     }
 
     public int getId() {
@@ -81,6 +84,14 @@ public class Candidate implements Serializable {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     @Override
