@@ -54,12 +54,12 @@ public class PostDBStore {
 
     public void update(Post post) {
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement("update post set name = (?)," +
-                " description = (?)," +
-                " created = (?)," +
-                " visible = (?)," +
-                " city_id = (?)" +
-                " where id = (?)")) {
+        PreparedStatement ps = cn.prepareStatement("update post set name = (?),"
+                + " description = (?),"
+                + " created = (?),"
+                + " visible = (?),"
+                + " city_id = (?)"
+                + " where id = (?)")) {
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
             ps.setTimestamp(3, Timestamp.valueOf(post.getCreated()));
