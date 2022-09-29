@@ -34,7 +34,6 @@ public class Candidate implements Serializable {
         this.name = name;
         this.desc = desc;
         this.created = created;
-        this.city = new City(0, "City");
         this.photo = new byte[1];
     }
 

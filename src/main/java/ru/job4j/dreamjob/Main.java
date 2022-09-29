@@ -1,3 +1,4 @@
+/*
 package ru.job4j.dreamjob;
 
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -50,3 +51,4 @@ public class Main {
         System.out.println("Go to http://localhost:8080/index");
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -73,3 +74,6 @@ public class PostDBStore {
         return null;
     }
 }
+
+
+ */

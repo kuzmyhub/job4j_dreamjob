@@ -32,7 +32,6 @@ public class Post implements Serializable {
         this.name = name;
         this.description = description;
         this.created = created;
-        this.city = new City(0, "City");
     }
 
     public int getId() {
