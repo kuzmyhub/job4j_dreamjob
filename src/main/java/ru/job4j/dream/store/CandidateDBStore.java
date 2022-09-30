@@ -13,6 +13,23 @@ import java.util.List;
 @Repository
 public class CandidateDBStore {
 
+    private static final String FIND_ALL = "SELECT * FROM candidate";
+
+    private static final String ADD = "INSERT INTO candidate("
+            + "name, description, created, visibility, photo, city_id"
+            + ")"
+            + " VALUES (?, ?, ?, ?, ?, ?)";
+
+    private static final String UPDATE = "UPDATE candidate SET name = (?),"
+            + " description = (?),"
+            + " crated = (?),"
+            + " visible = (?),"
+            + " city_id = (?)"
+            + " photo = (?)"
+            + " WHERE id = (?)";
+
+    private static final String FIND_BY_ID = "SELECT * FROM candidate WHERE id = ?";
+
     private static final Logger LOG
             = LoggerFactory.getLogger(CandidateDBStore.class.getName());
 
@@ -26,7 +43,7 @@ public class CandidateDBStore {
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
-                     "SELECT * FROM candidate"
+                     FIND_ALL
              )) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
@@ -36,6 +53,7 @@ public class CandidateDBStore {
                             it.getString("description"),
                             it.getTimestamp("created").toLocalDateTime(),
                             it.getBoolean("visible"),
+                            it.getBytes("photo"),
                             it.getInt("city_id")
                     ));
                 }
@@ -49,17 +67,15 @@ public class CandidateDBStore {
     public Candidate add(Candidate candidate) {
         try (Connection cn = pool.getConnection();
         PreparedStatement ps = cn.prepareStatement(
-                "INSERT INTO candidate("
-                        + "name, description, created, visibility, city_id"
-                        + ")"
-                        + " VALUES (?, ?, ?, ?, ?)",
+                ADD,
                 PreparedStatement.RETURN_GENERATED_KEYS
         )) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getDesc());
             ps.setTimestamp(3, Timestamp.valueOf(candidate.getCreated()));
             ps.setBoolean(4, candidate.isVisible());
-            ps.setInt(5, candidate.getCity().getId());
+            ps.setBytes(5, candidate.getPhoto());
+            ps.setInt(6, candidate.getCity().getId());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 while (id.next()) {
@@ -75,18 +91,14 @@ public class CandidateDBStore {
     public void update(Candidate candidate) {
         try (Connection cn = pool.getConnection();
         PreparedStatement ps = cn.prepareStatement(
-                "UPDATE candidate SET name = (?),"
-                        + " description = (?),"
-                        + " crated = (?),"
-                        + " visible = (?),"
-                        + " city_id = (?)"
-                        + " WHERE id = (?)")) {
+                UPDATE)) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getDesc());
             ps.setTimestamp(3, Timestamp.valueOf(candidate.getCreated()));
             ps.setBoolean(4, candidate.isVisible());
-            ps.setInt(5, candidate.getCity().getId());
-            ps.setInt(6, candidate.getId());
+            ps.setBytes(5, candidate.getPhoto());
+            ps.setInt(6, candidate.getCity().getId());
+            ps.setInt(7, candidate.getId());
             ps.execute();
         } catch (Exception e) {
             LOG.error("Exception in log example", e);
@@ -96,7 +108,7 @@ public class CandidateDBStore {
     public Candidate findById(int id) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "SELECT * FROM candidate WHERE id = ?"
+                     FIND_BY_ID
              )) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
@@ -107,6 +119,7 @@ public class CandidateDBStore {
                             it.getString("description"),
                             it.getTimestamp("created").toLocalDateTime(),
                             it.getBoolean("visible"),
+                            it.getBytes("photo"),
                             it.getInt("city_id")
                     );
                 }
