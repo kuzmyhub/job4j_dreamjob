@@ -16,16 +16,16 @@ public class CandidateDBStore {
     private static final String FIND_ALL = "SELECT * FROM candidate";
 
     private static final String ADD = "INSERT INTO candidate("
-            + "name, description, created, visibility, photo, city_id"
+            + "name, description, created, visible, photo, city_id"
             + ")"
             + " VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE = "UPDATE candidate SET name = (?),"
             + " description = (?),"
-            + " crated = (?),"
+            + " created = (?),"
             + " visible = (?),"
+            + " photo = (?),"
             + " city_id = (?)"
-            + " photo = (?)"
             + " WHERE id = (?)";
 
     private static final String FIND_BY_ID = "SELECT * FROM candidate WHERE id = ?";

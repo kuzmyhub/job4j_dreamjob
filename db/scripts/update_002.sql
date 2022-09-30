@@ -4,5 +4,6 @@ create table candidate(
    description text,
    created timestamp,
    visible boolean,
+   photo bytea,
    city_id int
 );

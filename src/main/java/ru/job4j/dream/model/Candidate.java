@@ -2,6 +2,7 @@ package ru.job4j.dream.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Candidate implements Serializable {
@@ -48,6 +49,17 @@ public class Candidate implements Serializable {
         this.visible = visible;
         this.photo = photo;
         this.cityId = cityId;
+    }
+
+    public Candidate(int id, String name, String desc,
+                LocalDateTime created, boolean visible, byte[] photo, City city) {
+        this.id = id;
+        this.name = name;
+        this.desc = desc;
+        this.created = created;
+        this.visible = visible;
+        this.photo = photo;
+        this.city = city;
     }
 
     public int getId() {
@@ -129,5 +141,19 @@ public class Candidate implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Candidate{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", desc='" + desc + '\''
+                + ", created=" + created
+                + ", visible=" + visible
+                + ", city=" + city
+                + ", photo=" + Arrays.toString(photo)
+                + ", cityId=" + cityId
+                + '}';
     }
 }
