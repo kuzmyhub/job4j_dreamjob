@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @ThreadSafe
-@Repository
+
 public class PostStore {
 
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
