@@ -2,7 +2,6 @@ package ru.job4j.dream.store;
 
 import net.jcip.annotations.ThreadSafe;
 import ru.job4j.dream.model.Post;
-
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;

@@ -4,33 +4,33 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.Candidate;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class PostDBStore {
+public class CandidateDBStore {
 
     private static final Logger LOG
-            = LoggerFactory.getLogger(PostDBStore.class.getName());
+            = LoggerFactory.getLogger(CandidateDBStore.class.getName());
 
     private final BasicDataSource pool;
 
-    public PostDBStore(BasicDataSource pool) {
+    public CandidateDBStore(BasicDataSource pool) {
         this.pool = pool;
     }
 
-    public List<Post> findAll() {
-        List<Post> posts = new ArrayList<>();
+    public List<Candidate> findAll() {
+        List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement(
-                     "SELECT * FROM post"
+             PreparedStatement ps = cn.prepareStatement(
+                     "SELECT * FROM candidate"
              )) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    posts.add(new Post(
+                    candidates.add(new Candidate(
                             it.getInt("id"),
                             it.getString("name"),
                             it.getString("description"),
@@ -43,66 +43,65 @@ public class PostDBStore {
         } catch (Exception e) {
             LOG.error("Exception in log example", e);
         }
-        return posts;
+        return candidates;
     }
 
-    public Post add(Post post) {
+    public Candidate add(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement(
-                     "INSERT INTO post("
-                             + "name, description, created, visible, city_id"
-                             + ")"
-                             + " VALUES (?, ?, ?, ?, ?)",
-                     PreparedStatement.RETURN_GENERATED_KEYS
-             )) {
-            ps.setString(1, post.getName());
-            ps.setString(2, post.getDescription());
-            ps.setTimestamp(3, Timestamp.valueOf(post.getCreated()));
-            ps.setBoolean(4, post.isVisible());
-            ps.setInt(5, post.getCity().getId());
+        PreparedStatement ps = cn.prepareStatement(
+                "INSERT INTO candidate("
+                        + "name, description, created, visibility, city_id"
+                        + ")"
+                        + " VALUES (?, ?, ?, ?, ?)",
+                PreparedStatement.RETURN_GENERATED_KEYS
+        )) {
+            ps.setString(1, candidate.getName());
+            ps.setString(2, candidate.getDesc());
+            ps.setTimestamp(3, Timestamp.valueOf(candidate.getCreated()));
+            ps.setBoolean(4, candidate.isVisible());
+            ps.setInt(5, candidate.getCity().getId());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
-                if (id.next()) {
-                    post.setId(id.getInt(1));
+                while (id.next()) {
+                    candidate.setId(id.getInt(1));
                 }
             }
         } catch (Exception e) {
-            LOG.error("Exception in log example", e);
+            LOG.error("Exception in log example");
         }
-        return post;
+        return candidate;
     }
 
-    public void update(Post post) {
+    public void update(Candidate candidate) {
         try (Connection cn = pool.getConnection();
         PreparedStatement ps = cn.prepareStatement(
-                "UPDATE post SET name = (?),"
-                + " description = (?),"
-                + " created = (?),"
-                + " visible = (?),"
-                + " city_id = (?)"
-                + " WHERE id = (?)"
-        )) {
-            ps.setString(1, post.getName());
-            ps.setString(2, post.getDescription());
-            ps.setTimestamp(3, Timestamp.valueOf(post.getCreated()));
-            ps.setBoolean(4, post.isVisible());
-            ps.setInt(5, post.getCity().getId());
-            ps.setInt(6, post.getId());
+                "UPDATE candidate SET name = (?),"
+                        + " description = (?),"
+                        + " crated = (?),"
+                        + " visible = (?),"
+                        + " city_id = (?)"
+                        + " WHERE id = (?)")) {
+            ps.setString(1, candidate.getName());
+            ps.setString(2, candidate.getDesc());
+            ps.setTimestamp(3, Timestamp.valueOf(candidate.getCreated()));
+            ps.setBoolean(4, candidate.isVisible());
+            ps.setInt(5, candidate.getCity().getId());
+            ps.setInt(6, candidate.getId());
             ps.execute();
         } catch (Exception e) {
             LOG.error("Exception in log example", e);
         }
     }
 
-    public Post findById(int id) {
+    public Candidate findById(int id) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "SELECT * FROM post WHERE id = ?"
+                     "SELECT * FROM candidate WHERE id = ?"
              )) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return new Post(
+                    return new Candidate(
                             it.getInt("id"),
                             it.getString("name"),
                             it.getString("description"),

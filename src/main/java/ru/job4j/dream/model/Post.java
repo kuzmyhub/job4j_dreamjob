@@ -18,6 +18,8 @@ public class Post implements Serializable {
 
     private City city;
 
+    private int cityId;
+
     public Post() {
     }
 
@@ -32,6 +34,16 @@ public class Post implements Serializable {
         this.name = name;
         this.description = description;
         this.created = created;
+    }
+
+    public Post(int id, String name, String description,
+                LocalDateTime created, boolean visible, int cityId) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.created = created;
+        this.visible = visible;
+        this.cityId = cityId;
     }
 
     public int getId() {
@@ -80,6 +92,14 @@ public class Post implements Serializable {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
     }
 
     @Override
