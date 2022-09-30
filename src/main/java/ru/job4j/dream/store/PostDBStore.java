@@ -1,6 +1,8 @@
 package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dream.model.Post;
 
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Repository
 public class PostDBStore {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PostDBStore.class.getName());
 
     private final BasicDataSource pool;
 
@@ -28,18 +32,24 @@ public class PostDBStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in log example", e);
         }
         return posts;
     }
 
     public Post add(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name, city_id) VALUES (?, ?)",
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post("
+                             + "name, description, created, visible, city_id"
+                             + ")"
+                             + " VALUES (?, ?, ?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, post.getName());
-            ps.setInt(2, post.getCity().getId());
+            ps.setString(2, post.getDescription());
+            ps.setTimestamp(3, Timestamp.valueOf(post.getCreated()));
+            ps.setBoolean(4, post.isVisible());
+            ps.setInt(5, post.getCity().getId());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -47,14 +57,14 @@ public class PostDBStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in log example", e);
         }
         return post;
     }
 
     public void update(Post post) {
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement("update post set name = (?),"
+        PreparedStatement ps = cn.prepareStatement("UPDATE post SET name = (?),"
                 + " description = (?),"
                 + " created = (?),"
                 + " visible = (?),"
@@ -67,7 +77,7 @@ public class PostDBStore {
             ps.setInt(5, post.getCity().getId());
             ps.setInt(6, post.getId());
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in log example", e);
         }
     }
 
@@ -82,7 +92,7 @@ public class PostDBStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in log example", e);
         }
         return null;
     }
