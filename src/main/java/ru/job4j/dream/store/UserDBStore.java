@@ -10,6 +10,7 @@ import ru.job4j.dream.model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +68,9 @@ public class UserDBStore {
                     user.setId(id.getInt(1));
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             LOG.error("Exception in log example", e);
+            return null;
         }
         return user;
     }
