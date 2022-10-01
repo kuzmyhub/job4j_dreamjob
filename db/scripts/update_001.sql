@@ -19,7 +19,7 @@ CREATE TABLE candidate(
 
 CREATE TABLE users(
   id SERIAL PRIMARY KEY,
-  email TEXT,
+  email VARCHAR,
   password TEXT
 );
 
