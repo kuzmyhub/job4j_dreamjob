@@ -9,6 +9,7 @@ import ru.job4j.dream.store.UserDBStore;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @ThreadSafe
 @Service
@@ -24,15 +25,7 @@ public class UserService {
         return store.findAll();
     }
 
-    public void add(User user) {
-        store.add(user);
-    }
-
-    public void update(User user) {
-        store.update(user);
-    }
-
-    public User findById(int id) {
-        return store.findById(id);
+    public Optional<User> add(User user) {
+        return Optional.of(store.add(user));
     }
 }

@@ -1,18 +1,26 @@
-create table post(
-   id serial primary key,
-   name text,
-   description text,
-   created timestamp,
-   visible boolean,
-   city_id int
+CREATE TABLE post(
+   id SERIAL PRIMARY KEY,
+   name TEXT,
+   description TEXT,
+   created TIMESTAMP,
+   visible BOOLEAN,
+   city_id INT
 );
 
-create table candidate(
-   id serial primary key,
-   name text,
-   description text,
-   created timestamp,
-   visible boolean,
-   photo bytea,
-   city_id int
+CREATE TABLE candidate(
+   id SERIAL PRIMARY KEY,
+   name TEXT,
+   description TEXT,
+   created TIMESTAMP,
+   visible BOOLEAN,
+   photo BYTEA,
+   city_id INT
 );
+
+CREATE TABLE users(
+  id SERIAL PRIMARY KEY,
+  email TEXT,
+  password TEXT
+);
+
+ALTER TABLE users ADD CONSTRAINT email_unique UNIQUE (email);
