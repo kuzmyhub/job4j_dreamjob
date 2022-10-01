@@ -27,7 +27,7 @@ public class PostService {
         List<Post> posts = store.findAll();
         posts.forEach(
                 post -> post.setCity(
-                        cityService.findById(post.getCity().getId())
+                        cityService.findById(post.getCityId())
                 )
         );
         return posts;

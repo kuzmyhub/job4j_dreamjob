@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.dream.model.Candidate;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +76,7 @@ public class CandidateDBStore {
         )) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getDesc());
-            ps.setTimestamp(3, Timestamp.valueOf(candidate.getCreated()));
+            ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
             ps.setBoolean(4, candidate.isVisible());
             ps.setBytes(5, candidate.getPhoto());
             ps.setInt(6, candidate.getCity().getId());
