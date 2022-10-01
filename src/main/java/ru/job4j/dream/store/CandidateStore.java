@@ -11,14 +11,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @ThreadSafe
-
+@Repository
 public class CandidateStore {
 
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
     private final AtomicInteger atomicInteger = new AtomicInteger(4);
 
-    private CandidateStore() {
+    public CandidateStore() {
         candidates.put(1, new Candidate(1, "Junior",
                 "Developer", LocalDateTime.now()));
         candidates.put(2, new Candidate(2, "Middle",

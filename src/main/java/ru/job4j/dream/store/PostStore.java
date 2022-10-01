@@ -11,14 +11,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @ThreadSafe
-
+@Repository
 public class PostStore {
 
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
     private final AtomicInteger atomicInteger = new AtomicInteger(4);
 
-    private PostStore() {
+    public PostStore() {
         posts.put(1, new Post(1, "Junior Java Job",
                 "Разработка", LocalDateTime.now()));
         posts.put(2, new Post(2, "Middle Java Jov",
