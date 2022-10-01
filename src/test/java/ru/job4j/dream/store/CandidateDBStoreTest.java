@@ -1,18 +1,17 @@
 package ru.job4j.dream.store;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import ru.job4j.StartUI;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.City;
-import ru.job4j.dream.model.Post;
 
 import java.time.LocalDateTime;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class CandidateDBStoreTest {
+class CandidateDBStoreTest {
+
     @Test
     public void whenCreateCandidate() {
         CandidateDBStore store = new CandidateDBStore(new StartUI().loadPool());
@@ -22,7 +21,7 @@ public class CandidateDBStoreTest {
                 LocalDateTime.now(), true, array, city);
         store.add(candidate);
         Candidate candidateInDb = store.findById(candidate.getId());
-        assertThat(candidateInDb.getName(), is(candidate.getName()));
+        assertThat(candidateInDb.getName()).isEqualTo(candidate.getName());
     }
 
     @Test
@@ -37,7 +36,7 @@ public class CandidateDBStoreTest {
                 LocalDateTime.now(), true, array, city);
         store.update(updateCandidate);
         Candidate candidateInDb = store.findById(candidate.getId());
-        assertThat(candidateInDb.getName(), is(updateCandidate.getName()));
+        assertThat(candidateInDb.getName()).isEqualTo(updateCandidate.getName());
     }
 
     @Test
@@ -48,8 +47,9 @@ public class CandidateDBStoreTest {
         Candidate candidate = new Candidate(0, "name", "description",
                 LocalDateTime.now(), true, array, city);
         store.add(candidate);
-        int notExistingId = 20;
+        int notExistingId = 100;
         Candidate candidateInDb = store.findById(notExistingId);
         assertNull(candidateInDb);
     }
+
 }

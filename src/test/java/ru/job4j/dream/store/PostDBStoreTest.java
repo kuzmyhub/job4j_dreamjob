@@ -1,17 +1,17 @@
 package ru.job4j.dream.store;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import ru.job4j.StartUI;
 import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 
 import java.time.LocalDateTime;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class PostDBStoreTest {
+class PostDBStoreTest {
+
     @Test
     public void whenCreatePost() {
         PostDBStore store = new PostDBStore(new StartUI().loadPool());
@@ -20,7 +20,7 @@ public class PostDBStoreTest {
                 LocalDateTime.now(), true, city);
         store.add(post);
         Post postInDb = store.findById(post.getId());
-        assertThat(postInDb.getName(), is(post.getName()));
+        assertThat(postInDb.getName()).isEqualTo(post.getName());
     }
 
     @Test
@@ -34,7 +34,7 @@ public class PostDBStoreTest {
                 LocalDateTime.now(), true, city);
         store.update(updatePost);
         Post postInDb = store.findById(post.getId());
-        assertThat(postInDb.getName(), is(updatePost.getName()));
+        assertThat(postInDb.getName()).isEqualTo(updatePost.getName());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class PostDBStoreTest {
         Post post = new Post(0, "name", "description",
                 LocalDateTime.now(), true, city);
         store.add(post);
-        int notExistingId = 20;
+        int notExistingId = 100;
         Post postInDb = store.findById(notExistingId);
         assertNull(postInDb);
     }
