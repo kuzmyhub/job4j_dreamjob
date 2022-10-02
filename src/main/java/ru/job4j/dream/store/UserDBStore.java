@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dream.model.User;
 
+import javax.sql.ConnectionPoolDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 @ThreadSafe
 @Repository
@@ -74,5 +76,27 @@ public class UserDBStore {
             return Optional.empty();
         }
         return Optional.of(user);
+    }
+
+    public Optional<User> findUserByEmailAndPwd(String email, String password) {
+        try (Connection cn = pool.getConnection();
+        PreparedStatement ps = cn.prepareStatement("select * from users where email = (?) and password = (?)")) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return Optional.of(new User(
+                            it.getInt("id"),
+                            it.getString("email"),
+                            it.getString("password")
+                    ));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 }
