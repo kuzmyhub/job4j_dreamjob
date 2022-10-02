@@ -10,6 +10,8 @@ public class User {
 
     private String password;
 
+    private String name;
+
     public User() {
     }
 
@@ -48,6 +50,14 @@ public class User {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -63,5 +73,15 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(email, password);
+    }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "id=" + id
+                + ", email='" + email + '\''
+                + ", password='" + password + '\''
+                + ", name='" + name + '\''
+                + '}';
     }
 }

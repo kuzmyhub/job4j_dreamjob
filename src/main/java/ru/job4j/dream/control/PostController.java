@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 import ru.job4j.dream.service.CityService;
 import ru.job4j.dream.service.PostService;
+
+import javax.servlet.http.HttpSession;
 
 @ThreadSafe
 @Controller
@@ -27,7 +30,9 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public String posts(Model model) {
+    public String posts(Model model, HttpSession session) {
+        User user = getSessionUser(session);
+        model.addAttribute("user", user);
         model.addAttribute("posts", postService.findAll());
         model.addAttribute("city", cityService.getAllCities());
         return "posts";
@@ -48,17 +53,32 @@ public class PostController {
     }
 
     @GetMapping("/formUpdatePost/{postId}")
-    public String formUpdatePost(Model model, @PathVariable("postId") int id) {
+    public String formUpdatePost(Model model, @PathVariable("postId") int id,
+                                 HttpSession session) {
+        User user = getSessionUser(session);
+        model.addAttribute("user", user);
         model.addAttribute("post", postService.findById(id));
         model.addAttribute("cities", cityService.getAllCities());
         return "updatePost";
     }
 
     @GetMapping("/formAddPost")
-    public String formAddPost(Model model) {
+    public String formAddPost(Model model, HttpSession session) {
+        User user = getSessionUser(session);
+        model.addAttribute("user", user);
         model.addAttribute("candidate", new Post(0, "Заполните поле"));
-
         model.addAttribute("cities", cityService.getAllCities());
         return "addPost";
+    }
+
+    public User getSessionUser(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        } else {
+            user.setName(user.getEmail().split("@")[0]);
+        }
+        return user;
     }
 }
