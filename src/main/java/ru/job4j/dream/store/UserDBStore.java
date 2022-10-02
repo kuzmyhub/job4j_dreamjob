@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @ThreadSafe
 @Repository
@@ -54,7 +55,7 @@ public class UserDBStore {
         return users;
     }
 
-    public User add(User user) {
+    public Optional<User> add(User user) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
                      ADD,
@@ -70,8 +71,8 @@ public class UserDBStore {
             }
         } catch (SQLException e) {
             LOG.error("Exception in log example", e);
-            return null;
+            return Optional.empty();
         }
-        return user;
+        return Optional.of(user);
     }
 }
