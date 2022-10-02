@@ -58,6 +58,7 @@ public class UserDBStore {
     }
 
     public Optional<User> add(User user) {
+        Optional<User> optional = Optional.empty();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
                      ADD,
@@ -69,13 +70,13 @@ public class UserDBStore {
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
                     user.setId(id.getInt(1));
+                    optional = Optional.of(user);
                 }
             }
         } catch (SQLException e) {
             LOG.error("Exception in log example", e);
-            return Optional.empty();
         }
-        return Optional.of(user);
+        return optional;
     }
 
     public Optional<User> findUserByEmailAndPwd(String email, String password) {
