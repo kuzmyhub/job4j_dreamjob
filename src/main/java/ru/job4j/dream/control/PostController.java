@@ -66,7 +66,7 @@ public class PostController {
     public String formAddPost(Model model, HttpSession session) {
         User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
-        model.addAttribute("candidate", new Post(0, "Заполните поле"));
+        model.addAttribute("post", new Post(0, "Заполните поле"));
         model.addAttribute("cities", cityService.getAllCities());
         return "addPost";
     }
