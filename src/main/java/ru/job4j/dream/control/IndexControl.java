@@ -12,13 +12,7 @@ public class IndexControl {
 
     @GetMapping("/index")
     public String index(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        } else {
-            user.setName(user.getEmail().split("@")[0]);
-        }
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
         return "index";
     }
