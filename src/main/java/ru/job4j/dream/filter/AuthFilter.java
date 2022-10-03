@@ -39,13 +39,6 @@ public class AuthFilter implements Filter {
     }
 
     private boolean findAddress(String uri) {
-        boolean rsl = false;
-        for (String s : addresses) {
-            if (uri.endsWith(s)) {
-                rsl = true;
-                break;
-            }
-        }
-        return rsl;
+        return addresses.stream().anyMatch(uri::endsWith);
     }
 }
