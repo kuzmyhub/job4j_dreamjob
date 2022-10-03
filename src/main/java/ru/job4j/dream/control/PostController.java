@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 import ru.job4j.dream.service.CityService;
 import ru.job4j.dream.service.PostService;
+import ru.job4j.dream.util.SessionUser;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,7 +31,7 @@ public class PostController {
 
     @GetMapping("/posts")
     public String posts(Model model, HttpSession session) {
-        User user = SessionUser.getSessionUser(session);
+        User user = SessionUser.getInstance().getSessionUser(session);
         model.addAttribute("user", user);
         model.addAttribute("posts", postService.findAll());
         model.addAttribute("city", cityService.getAllCities());
@@ -55,7 +55,7 @@ public class PostController {
     @GetMapping("/formUpdatePost/{postId}")
     public String formUpdatePost(Model model, @PathVariable("postId") int id,
                                  HttpSession session) {
-        User user = SessionUser.getSessionUser(session);
+        User user = SessionUser.getInstance().getSessionUser(session);
         model.addAttribute("user", user);
         model.addAttribute("post", postService.findById(id));
         model.addAttribute("cities", cityService.getAllCities());
@@ -64,7 +64,7 @@ public class PostController {
 
     @GetMapping("/formAddPost")
     public String formAddPost(Model model, HttpSession session) {
-        User user = SessionUser.getSessionUser(session);
+        User user = SessionUser.getInstance().getSessionUser(session);
         model.addAttribute("user", user);
         model.addAttribute("candidate", new Post(0, "Заполните поле"));
         model.addAttribute("cities", cityService.getAllCities());

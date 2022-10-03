@@ -1,12 +1,21 @@
-package ru.job4j.dream.control;
+package ru.job4j.dream.util;
 
 import ru.job4j.dream.model.User;
 
 import javax.servlet.http.HttpSession;
 
-public class SessionUser {
+public final class SessionUser {
 
-    static User getSessionUser(HttpSession session) {
+    private static final SessionUser INST = new SessionUser();
+
+    private SessionUser() {
+    }
+
+    public static SessionUser getInstance() {
+        return INST;
+    }
+
+    public User getSessionUser(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             user = new User();
