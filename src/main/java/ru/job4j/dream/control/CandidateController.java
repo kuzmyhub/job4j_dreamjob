@@ -35,7 +35,7 @@ public class CandidateController {
 
     @GetMapping("/candidates")
     public String candidates(Model model, HttpSession session) {
-        User user = SessionUser.getInstance().getSessionUser(session);
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
         model.addAttribute("candidates", candidateService.findAll());
         model.addAttribute("city", cityService.getAllCities());
@@ -63,7 +63,7 @@ public class CandidateController {
     @GetMapping("/formUpdateCandidate/{candidateId}")
     public String formUpdateCandidate(Model model, @PathVariable("candidateId") int id,
                                       HttpSession session) {
-        User user = SessionUser.getInstance().getSessionUser(session);
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
         model.addAttribute("candidate", candidateService.findById(id));
         model.addAttribute("cities", cityService.getAllCities());
@@ -72,7 +72,7 @@ public class CandidateController {
 
     @GetMapping("/formAddCandidate")
     public String formAddCandidate(Model model, HttpSession session) {
-        User user = SessionUser.getInstance().getSessionUser(session);
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
         model.addAttribute("candidate", new Candidate(0, "Заполните поле"));
         model.addAttribute("cities", cityService.getAllCities());

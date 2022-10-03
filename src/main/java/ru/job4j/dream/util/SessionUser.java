@@ -6,16 +6,10 @@ import javax.servlet.http.HttpSession;
 
 public final class SessionUser {
 
-    private static final SessionUser INST = new SessionUser();
-
     private SessionUser() {
     }
 
-    public static SessionUser getInstance() {
-        return INST;
-    }
-
-    public User getSessionUser(HttpSession session) {
+    public static User getSessionUser(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             user = new User();

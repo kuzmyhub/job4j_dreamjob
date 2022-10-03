@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping("/users")
     public String users(Model model, HttpSession session) {
-        User user = SessionUser.getInstance().getSessionUser(session);
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
         model.addAttribute("users", userService.getAllUsers());
         return "users";
@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping("/formRegistrationUser")
     public String formRegistrationUser(Model model, HttpSession session) {
-        User user = SessionUser.getInstance().getSessionUser(session);
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("userSession", user);
         model.addAttribute("user", new User(
                 0, "Заполните поле", "Заполните поле"
@@ -56,14 +56,14 @@ public class UserController {
 
     @GetMapping("/fail")
     public String fail(Model model, HttpSession session) {
-        User user = SessionUser.getInstance().getSessionUser(session);
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
         return "fail";
     }
 
     @GetMapping("/success")
     public String success(Model model, HttpSession session) {
-        User user = SessionUser.getInstance().getSessionUser(session);
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
         return "success";
     }
@@ -85,7 +85,7 @@ public class UserController {
     public String loginPage(Model model,
                             @RequestParam(name = "fail", required = false) Boolean fail,
                             HttpSession session) {
-        User user = SessionUser.getInstance().getSessionUser(session);
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
         model.addAttribute("fail", fail != null);
         return "login";

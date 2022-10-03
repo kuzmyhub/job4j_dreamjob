@@ -13,7 +13,7 @@ public class IndexControl {
 
     @GetMapping("/index")
     public String index(Model model, HttpSession session) {
-        User user = SessionUser.getInstance().getSessionUser(session);
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
         return "index";
     }

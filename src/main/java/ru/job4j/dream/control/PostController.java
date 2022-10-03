@@ -31,7 +31,7 @@ public class PostController {
 
     @GetMapping("/posts")
     public String posts(Model model, HttpSession session) {
-        User user = SessionUser.getInstance().getSessionUser(session);
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
         model.addAttribute("posts", postService.findAll());
         model.addAttribute("city", cityService.getAllCities());
@@ -55,7 +55,7 @@ public class PostController {
     @GetMapping("/formUpdatePost/{postId}")
     public String formUpdatePost(Model model, @PathVariable("postId") int id,
                                  HttpSession session) {
-        User user = SessionUser.getInstance().getSessionUser(session);
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
         model.addAttribute("post", postService.findById(id));
         model.addAttribute("cities", cityService.getAllCities());
@@ -64,7 +64,7 @@ public class PostController {
 
     @GetMapping("/formAddPost")
     public String formAddPost(Model model, HttpSession session) {
-        User user = SessionUser.getInstance().getSessionUser(session);
+        User user = SessionUser.getSessionUser(session);
         model.addAttribute("user", user);
         model.addAttribute("candidate", new Post(0, "Заполните поле"));
         model.addAttribute("cities", cityService.getAllCities());
